@@ -27,4 +27,4 @@ def browser(request):
 
 def pytest_addoption(parser):
     # добавляем парсер для получения параметров запуска команды bash
-    parser.addoption('--language', action='store', help='Choose language', default='en')
+    parser.addoption('--language', action='store', help='Choose language', default='en-gb')

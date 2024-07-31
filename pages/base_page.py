@@ -1,6 +1,7 @@
 from conftest import browser
 from selenium.common.exceptions import NoSuchElementException
 
+
 class BasePage():
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
@@ -15,5 +16,9 @@ class BasePage():
         try:
             self.browser.find_element(how, what)
         except NoSuchElementException:
-            return False
-        return True
+            return [False, 'NoSuchElementException: ']
+        return [True]
+
+
+    def check_promotion(self, promo_name):
+        return self.browser.current_url.find('promo=' + promo_name) != -1
