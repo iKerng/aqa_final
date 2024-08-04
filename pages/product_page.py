@@ -3,7 +3,6 @@ from .locators import ProductPageLocators
 from math import log, sin
 from selenium.common.exceptions import NoAlertPresentException, NoSuchElementException
 from re import sub
-from time import sleep
 
 class ProductPage(BasePage):
     def should_be_exist_button_cart(self):
@@ -38,7 +37,7 @@ class ProductPage(BasePage):
         self.browser.find_element(*ProductPageLocators.BUTTON_GO_TO_CART).click()
 
 
-    def should_be_added_to_cart(self):
+    def should_be_added_to_cart_my(self):
         try:
             self.browser.find_element(*ProductPageLocators.CART_IS_NOT_EMPTY)
             assert True
@@ -46,12 +45,17 @@ class ProductPage(BasePage):
             assert False, 'Корзина пуста'
 
 
+    def should_be_added_to_cart(self, product_link):
+        product_name = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME).text
+        product_name_in_alert = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME_IN_ALERT).text
+        assert product_name == product_name_in_alert, f'Название книги, в алерте отличается: <{product_name_in_alert}>'
+
+
     def should_be_match_name_of_product_added_cart(self, product_link):
         name_product = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME).text
         self.go_to_cart()
-        # sleep(5)
         name_in_cart = (self.browser.
-                        find_element(*ProductPageLocators.PRODUCT_NAME_IN_CART(self,href_product=product_link)).text)
+                        find_element(*ProductPageLocators.PRODUCT_NAME_IN_CART(href_product=product_link)).text)
         assert name_product == name_in_cart, 'Наименование товара в корзине отличается от наименования добавляемого товара'
 
 
