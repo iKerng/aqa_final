@@ -67,3 +67,16 @@ class ProductPage(BasePage):
         cost_in_cart = float(sub(r'[^0-9.,]', '', cost_in_cart))
         assert cost_product == cost_in_cart, 'Цена товара в корзине отличается от цены добавляемого товара'
 
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message is presented, but should not be"
+
+
+    def should_not_get_succes_message(self):
+        assert self.is_not_element_present(loc=ProductPageLocators.PRODUCT_NAME_IN_ALERT)\
+            , 'Сообщение об успехе присутствует'
+
+
+    def should_not_is_not_element_present(self):
+        assert self.is_disappeared(loc=ProductPageLocators.PRODUCT_NAME_IN_ALERT)\
+            , 'Сообщение об успехе присутствует'

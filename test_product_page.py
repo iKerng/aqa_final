@@ -7,6 +7,7 @@ from time import sleep
 promo_link = ''
 link = 'http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/?promo=newYear'
 # link = f'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer{promo_link}'
+link = f'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
 
 @pytest.mark.promo
 def test_check_promotion(browser, link=link):
@@ -72,3 +73,24 @@ def test_button_cart_exist(browser, link=link):
     product_page.open()
     sleep(5)
     product_page.should_be_exist_button_cart()
+
+@pytest.mark.waits
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser, link=link):
+    product_page = ProductPage(browser, link)
+    product_page.open()
+    product_page.press_add_to_cart()
+    product_page.should_not_get_succes_message()
+
+
+@pytest.mark.waits
+def test_guest_cant_see_success_message(browser, link=link):
+    product_page = ProductPage(browser, link)
+    product_page.open()
+    product_page.should_not_get_succes_message()
+
+@pytest.mark.waits
+def test_message_disappeared_after_adding_product_to_basket(browser, link=link):
+    product_page = ProductPage(browser, link)
+    product_page.open()
+    product_page.press_add_to_cart()
+    product_page.should_not_is_not_element_present()
